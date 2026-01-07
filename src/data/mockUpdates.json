@@ -1,7 +1,7 @@
 
 {
   "heroUpdate": {
-    "status": "precise",
+    "status": "estimated",
     "precise": {
       "targetDateTimeUtc": "2026-05-01T20:30:00Z",
       "visibility": {

@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 
 function buildBaseSession({ includeTime } = { includeTime: true }) {
@@ -30,6 +29,7 @@ export function LoadingScreen({ onEnter }) {
       ...base,
       isAnonymous: true,
       locationPermission: reason,
+      location: null,
     });
   }
 
@@ -48,7 +48,8 @@ export function LoadingScreen({ onEnter }) {
       onEnter({
         ...base,
         isAnonymous: true,
-        locationPermission: "denied",
+        locationPermission: "unavailable",
+        location: null,
       });
       return;
     }
@@ -82,15 +83,23 @@ export function LoadingScreen({ onEnter }) {
         setIsBusy(false);
         setErrorMsg(err?.message || "Location request failed.");
 
+        const code = err?.code;
+
+        let permission = "error";
+        if (code === 1) permission = "denied";
+        if (code === 2) permission = "unavailable";
+        if (code === 3) permission = "timeout";
+
         onEnter({
           ...base,
           isAnonymous: true,
-          locationPermission: "denied",
+          locationPermission: permission,
+          location: null,
         });
       },
       {
         enableHighAccuracy: false,
-        timeout: 8000,
+        timeout: 15000,
         maximumAge: 60000,
       }
     );

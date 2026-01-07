@@ -57,13 +57,20 @@ export default function Update({ session }) {
 
     setInfoOpen(true);
   }
-  const userContext = {
-    isAnonymous: session?.type === "anonymous",
-    hasGeoPermission: !!session?.geo,
-    userTimezone:
-      session?.timezone ||
-      Intl.DateTimeFormat().resolvedOptions().timeZone,
-  };
+  
+const isAnonymous = session?.isAnonymous === true;
+
+const hasGeoPermission =
+  session?.locationPermission === "granted" && !!session?.location;
+
+const userContext = {
+  isAnonymous,
+  hasGeoPermission,
+  // אנונימי = לא מחזירים שום timezone, וגם לא fallback מהדפדפן
+  userTimezone: isAnonymous ? null : (session?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone),
+};
+
+
 
   console.groupCollapsed("[Update] hero context");
   console.log("userContext:", userContext);
@@ -90,7 +97,13 @@ export default function Update({ session }) {
 
       <BottomNav
         onRefresh={handleRefresh}
-        onDonate={handleDonate}
+       onDonate={() => {
+    window.open(
+      "https://buymeacoffee.com/nav87pow",
+      "_blank",
+      "noopener,noreferrer"
+    );
+  }}
         onInfo={handleInfo}
         onDownload={handleDownload}
       />

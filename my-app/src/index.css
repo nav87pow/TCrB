@@ -1,0 +1,178 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply font-sans text-purple-950;
+
+  }
+}
+
+
+@layer components {
+    .bgBright {
+    background:
+      url("/bgBright.png") 50% / cover no-repeat,
+      url("/bgDeep.png") 50% / cover no-repeat;
+    background-blend-mode: screen, normal;
+  }
+  section {
+    @apply mb-6;
+  }
+
+  .title {
+    @apply font-display text-[1.625rem] tracking-[0.005rem] uppercase text-violet-950 text-center font-normal;
+  }
+  .h1title {
+    @apply font-display text-[1.625rem] font-black uppercase tracking-[0.065rem];
+  }
+    .headlineEstimated {
+    @apply text-violet-950 text-[0.875rem] font-light tracking-[0.035rem];
+    
+  }
+  .subtitle {
+    @apply text-violet-950 text-[0.75rem] font-normal tracking-[0.03rem];
+  }
+.scopeWord {
+  @apply font-display font-black uppercase;
+}
+
+  .caption {
+    @apply text-[0.75rem] capitalize text-violet-950 font-normal;
+  }
+
+  .btn {
+    @apply text-xs w-[20.625rem] py-3 flex items-center justify-center rounded-[1.375rem] border border-purple-950 font-normal;
+  }
+
+  .btnPrimary {
+    @apply bg-purple-500 text-white;
+  }
+
+  .btnSecondary {
+    @apply bg-stone-50 text-violet-950;
+  }
+    .countNum {
+    @apply font-display text-stone-50 text-center uppercase font-black text-[2.625rem] tracking-[0.105rem];
+    -webkit-text-stroke-width: 0.02px;
+    -webkit-text-stroke-color: violet-950;
+  }
+
+  .countLabel {
+    @apply font-display text-stone-50 mt-1 text-center uppercase font-black text-[0.875rem] tracking-[0.0525rem];
+  }
+/* ===== Articles / Cards ===== */
+
+  .articles-list {
+    @apply w-full flex flex-col items-center gap-12;
+  }
+
+  .article-card {
+  @apply w-full max-w-[19.815rem] bg-white rounded-xl p-7 border-[0.2px] border-[rgba(21,6,43,0.2)] relative overflow-hidden;
+}
+ .article-card.trusted::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 4px;
+
+  background:
+    linear-gradient(
+      0deg,
+      theme(colors.purple.600),
+      theme(colors.purple.600)
+    ),
+    url("/bgBright.png") calc(50% - 4px) 50% / cover no-repeat,
+    url("/bgDeep.png") calc(50% - 4px) 50% / cover no-repeat;
+
+  background-blend-mode: color, screen, normal;
+
+  pointer-events: none;
+
+  border-top-left-radius: 0.75rem;
+  border-bottom-left-radius: 0.75rem;
+}
+
+  .article-card.trusted {
+    @apply border-[0.2px] border-[rgba(124,58,237,0.35)];
+  }
+
+  .article-card.web {
+    @apply border-[0.2px] border-[rgba(21,6,43,0.18)];
+  }
+
+  .article-card__header {
+    @apply w-full flex items-start justify-between gap-3 mb-6;
+  }
+
+  .article-card__headerLeft {
+    @apply flex items-center gap-2 min-w-0;
+  }
+
+  .article-card__faviconWrap {
+    @apply relative w-8 h-8 rounded-full flex items-center justify-center flex-none
+      bg-[radial-gradient(70%_70%_at_30%_30%,rgba(124,58,237,0.35),rgba(60,3,101,0.9))];
+  }
+
+  .article-card__favicon {
+    @apply w-full h-full rounded-full object-cover;
+  }
+
+  .article-card__meta {
+    @apply flex gap-1 min-w-0;
+  }
+
+  /* requested area names */
+  .articaesource {
+    @apply font-sans text-[0.75rem] font-medium text-purple-950 uppercase leading-none tracking-[0.03rem] truncate;
+  }
+
+  .articaledate {
+    @apply font-sans text-[0.75rem] font-normal text-purple-950/70 leading-none tracking-[0.03rem];
+  }
+
+  .articlebadge {
+    @apply absolute -right-1 -bottom-1 w-[14px] h-[14px] rounded-full
+      flex items-center justify-center bg-[#7c3aed] border border-white;
+  }
+
+  /* icon glyph from Noto Sans Symbols2 */
+  .articlebadge__icon {
+    @apply font-symbols text-[9px] leading-none text-white;
+    transform: translateY(0.075rem);git status
+
+  }
+
+  .articalheadline {
+    @apply font-sans text-[1.5rem] text-left font-semibold text-purple-950 mb-6
+      leading-[1.2] tracking-[-0.01rem];
+  }
+
+  .articleimg {
+    @apply w-full rounded-lg mb-6 object-cover;
+  }
+
+  .articletext {
+    @apply font-sans text-[0.875rem] text-left font-normal text-purple-950/80 mb-2 leading-[1.6];
+  }
+
+.article-card__link {
+  @apply
+    font-sans
+    text-[0.75rem]
+    font-medium
+    text-purple-950/60
+    flex
+    w-full
+    items-center
+    justify-end
+    gap-1
+    tracking-[0.02rem]
+    hover:text-purple-950;
+}
+
+
+}
