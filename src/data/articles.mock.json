@@ -1,0 +1,76 @@
+{
+  "articles": [
+    {
+      "id": "art-001",
+      "source": {
+        "name": "NASA",
+        "domain": "nasa.gov",
+        "favicon": ""
+      },
+      "publishedAt": "2025-01-06T10:20:00Z",
+      "headline": "NASA provides an update on monitoring of T Coronae Borealis",
+      "excerpt": "NASA teams report continued monitoring of T Coronae Borealis across multiple instruments and partner facilities. Recent observations support ongoing watch status while researchers evaluate changes in brightness and related indicators for potential near-term activity.",
+      "url": "https://www.nasa.gov/"
+    },
+    {
+      "id": "art-002",
+      "source": {
+        "name": "ESA",
+        "domain": "esa.int",
+        "favicon": "https://www.esa.int/favicon.ico"
+      },
+      "publishedAt": "2025-01-04T08:05:00Z",
+      "headline": "ESA notes new observational context for recurrent novae",
+      "excerpt": "ESA highlights recent observational context around recurrent novae and coordinated monitoring practices. The note outlines how multi-wavelength measurements and ground-based support can help characterize the conditions preceding major outbursts in known systems.",
+      "url": "https://www.esa.int/"
+    },
+    {
+      "id": "art-003",
+      "source": {
+        "name": "Space Updates Blog",
+        "domain": "spaceupdates.example",
+        "favicon": "https://www.google.com/s2/favicons?domain=spaceupdates.example&sz=64"
+      },
+      "publishedAt": "2025-01-06T12:40:00Z",
+      "headline": "Is T CrB ‘imminent’? A quick overview of what’s being watched",
+      "excerpt": "A short overview of what observers are watching in T Coronae Borealis, including reported brightness changes and how amateur and professional measurements can complement each other. The article links to several public resources and recent commentary.",
+      "url": "https://spaceupdates.example/tcrb-overview"
+    },
+    {
+      "id": "art-004",
+      "source": {
+        "name": "Astro Daily",
+        "domain": "astrodaily.example",
+        "favicon": "https://www.google.com/s2/favicons?domain=astrodaily.example&sz=64"
+      },
+      "publishedAt": "2025-01-05T21:15:00Z",
+      "headline": "What we know so far about T CrB timing windows",
+      "excerpt": "Astro Daily summarizes timing-window discussion around T CrB and outlines key uncertainties. It references public sky-monitoring feeds and explains why short-term forecasting is difficult without continuous multi-band observation coverage.",
+      "url": "https://astrodaily.example/tcrb-timing"
+    },
+    {
+      "id": "art-005",
+      "source": {
+        "name": "NOIRLab",
+        "domain": "noirlab.edu",
+        "favicon": "https://noirlab.edu/favicon.ico"
+      },
+      "publishedAt": "2025-01-02T16:00:00Z",
+      "headline": "NOIRLab: observing programs and transient monitoring context",
+      "excerpt": "NOIRLab shares context on transient monitoring workflows, including coordination between facilities and data publication practices. The note describes how programs track changing sources and how updates are communicated through official channels.",
+      "url": "https://noirlab.edu/"
+    },
+    {
+      "id": "art-006",
+      "source": {
+        "name": "Random Astro Page",
+        "domain": "randomastropage.example",
+        "favicon": "https://www.google.com/s2/favicons?domain=randomastropage.example&sz=64"
+      },
+      "publishedAt": "2024-12-29T09:30:00Z",
+      "headline": "T CrB: community roundup and links",
+      "excerpt": "A roundup-style page collecting links about T CrB and basic explanations of recurrent novae. It includes pointers to external resources and general background about how brightness measurements are reported by different observers.",
+      "url": "https://randomastropage.example/tcrb-roundup"
+    }
+  ]
+}

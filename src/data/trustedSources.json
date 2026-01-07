@@ -1,0 +1,11 @@
+{
+  "trustedSources": [
+    { "name": "NASA", "domain": "nasa.gov" },
+    { "name": "ESA", "domain": "esa.int" },
+    { "name": "NOIRLab", "domain": "noirlab.edu" },
+    { "name": "AAVSO", "domain": "aavso.org" },
+    { "name": "Nature", "domain": "nature.com" },
+    { "name": "Science", "domain": "science.org" },
+    { "name": "arXiv", "domain": "arxiv.org" }
+  ]
+}

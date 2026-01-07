@@ -1,0 +1,44 @@
+
+{
+  "heroUpdate": {
+    "status": "precise",
+    "precise": {
+      "targetDateTimeUtc": "2026-05-01T20:30:00Z",
+      "visibility": {
+        "scope": "global",
+        "directionLabel": "All over the globe"
+      },
+      "cities": ["Tokyo", "Berlin", "New York", "London", "Santiago"],
+      "meta": {
+        "sources": ["NASA", "ESA"],
+        "confidence": 0.72
+      }
+    },
+    "estimated": {
+      "leadText": "According to Prediction around",
+      "window": {
+        "type": "yearRange",
+        "from": 2026,
+        "to": 2027
+      },
+      "visibility": {
+        "scope": "north",
+        "directionLabel": "better to watch in NORTH side of the globe"
+      },
+      "cities": ["London", "New York", "Berlin", "Tokyo", "Reykjavík"],
+      "meta": {
+        "sources": ["NASA", "Spaceweather"],
+        "confidence": 0.38
+      }
+    }
+  },
+  "articles": [
+    {
+      "id": "nasa-001",
+      "source": "NASA",
+      "dateLabel": "00 month 2025",
+      "title": "Artical Head Line",
+      "excerpt": "is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."
+    }
+  ]
+}
