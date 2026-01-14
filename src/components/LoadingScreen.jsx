@@ -81,7 +81,6 @@ export function LoadingScreen({ onEnter }) {
         console.log("[LoadingScreen] Geolocation ERROR", err);
 
         setIsBusy(false);
-        setErrorMsg(err?.message || "Location request failed.");
 
         const code = err?.code;
 
@@ -90,12 +89,11 @@ export function LoadingScreen({ onEnter }) {
         if (code === 2) permission = "unavailable";
         if (code === 3) permission = "timeout";
 
-        onEnter({
-          ...base,
-          isAnonymous: true,
-          locationPermission: permission,
-          location: null,
-        });
+        // Show message briefly (optional) but do not block the flow.
+        setErrorMsg(err?.message || "Location request failed. Continuing anonymously.");
+
+        // FIX: Continue anonymously instead of leaving the app in an error-only state.
+        enterAnonymous(permission);
       },
       {
         enableHighAccuracy: false,
