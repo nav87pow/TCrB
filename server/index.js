@@ -96,7 +96,7 @@ function looksRelativeTime(s) {
     t.includes("days") ||
     t.includes("week") ||
     t.includes("weeks") ||
-    t.includes("month") && t.includes("ago") ||
+    (t.includes("month") && t.includes("ago")) ||
     t.includes("yesterday") ||
     t.includes("today")
   );
@@ -136,7 +136,6 @@ function normalizeToYmd(input) {
   }
 
   if (typeof input === "number") {
-    // numeric timestamps are OK
     const ms = input > 10_000_000_000 ? input : input * 1000;
     const d = new Date(ms);
     return ymdFromDate(d);
@@ -262,6 +261,15 @@ function mergeSearchResults(primary, secondary, limit = 10) {
   return out;
 }
 
+function summarizeProviderError(err) {
+  const msg = String(err?.message ?? err ?? "");
+  // Keep UI safe (no giant JSON dumped into hero)
+  if (msg.includes("429") || msg.toLowerCase().includes("rate")) {
+    return "Search is temporarily rate-limited. Please try again shortly.";
+  }
+  return "Search is temporarily unavailable. Please try again shortly.";
+}
+
 /**
  * Runs search based on provider strategy:
  * - provider=brave -> brave only
@@ -292,7 +300,7 @@ async function runSearchStrategy({ query, limit, provider, merge }) {
     return { searchProvider: "serper", raw, merged: false, forcedProvider };
   }
 
-  // Auto
+  // Auto: brave first, fallback to serper
   try {
     const brave = await runBrave();
 
@@ -327,19 +335,14 @@ async function runSearchStrategy({ query, limit, provider, merge }) {
       forcedProvider: "auto",
     };
   } catch (err) {
-    try {
-      const serper = await runSerper();
-      return {
-        searchProvider: "serper",
-        raw: serper.raw,
-        merged: false,
-        forcedProvider: "auto",
-      };
-    } catch (e2) {
-      const combined = new Error("Both providers failed");
-      combined.cause = { brave: err, serper: e2 };
-      throw combined;
-    }
+    const serper = await runSerper();
+    return {
+      searchProvider: "serper",
+      raw: serper.raw,
+      merged: false,
+      forcedProvider: "auto",
+      braveError: String(err?.message ?? err),
+    };
   }
 }
 
@@ -403,7 +406,10 @@ app.get("/api/updates", async (req, res) => {
     const now = Date.now();
     const cacheTtlMs = 30 * 60 * 1000;
 
-    const provider = normalizeProvider(req.query.provider);
+    // IMPORTANT: allow env default provider
+    const envProvider = normalizeProvider(process.env.SEARCH_PROVIDER);
+    const provider = normalizeProvider(req.query.provider || envProvider || "auto");
+
     const refresh = boolQuery(req.query.refresh);
     const merge = boolQuery(req.query.merge);
 
@@ -412,7 +418,7 @@ app.get("/api/updates", async (req, res) => {
       cachedPayload &&
       now < cacheExpiresAtMs &&
       cachedPayload?.debug?.forcedProvider === provider &&
-      cachedPayload?.debug?.merged === merge;
+      cachedPayload?.debug?.merged === Boolean(merge);
 
     if (cacheUsable) return res.json(cachedPayload);
 
@@ -468,7 +474,6 @@ app.get("/api/updates", async (req, res) => {
             }
           }
 
-          // IMPORTANT: date normalization avoids relative time -> wrong dates
           const ymd = normalizeToYmd(r.publishedAt);
 
           return {
@@ -485,10 +490,6 @@ app.get("/api/updates", async (req, res) => {
         })
         .filter((x) => x.title && x.url);
 
-      // This preserves your rules:
-      // - at least 1 trusted if any exist
-      // - trusted before web
-      // - and 6-month rule for multiple trusted
       const forGroq = pickAndOrderArticles(classified, 12);
 
       const groqOut = await analyzeWithGroq({
@@ -523,6 +524,7 @@ app.get("/api/updates", async (req, res) => {
           forcedProvider: provider,
           refresh,
           merged: Boolean(merge),
+          braveError: webSearch?.braveError || null,
         },
       };
 
@@ -538,10 +540,21 @@ app.get("/api/updates", async (req, res) => {
   } catch (err) {
     inFlightPromise = null;
 
-    const overloadMsg =
-      "Please check again later today — we’re under heavy load right now.";
+    // If we have cached data, return it (best UX, avoids breaking UI)
+    if (cachedPayload) {
+      return res.status(200).json({
+        ...cachedPayload,
+        debug: {
+          ...(cachedPayload.debug || {}),
+          error: String(err?.message ?? err),
+          usedCacheOnError: true,
+        },
+      });
+    }
 
-    res.status(200).json({
+    const overloadMsg = summarizeProviderError(err);
+
+    return res.status(200).json({
       heroUpdate: {
         status: "estimated",
         precise: {
@@ -566,14 +579,14 @@ app.get("/api/updates", async (req, res) => {
           domain: "",
           faviconUrl: null,
           publishedAt: null,
-          title: "Temporary overload",
+          title: "Temporary issue",
           excerpt: overloadMsg,
           url: "",
         },
       ],
       debug: {
         error: String(err?.message ?? err),
-        forcedProvider: "auto",
+        forcedProvider: normalizeProvider(process.env.SEARCH_PROVIDER) || "auto",
         refresh: false,
         merged: false,
       },
@@ -598,7 +611,8 @@ function cleanHeroUpdate(heroUpdate) {
     targetDateTimeUtc: stripLiteralString(precise.targetDateTimeUtc) || "2026-05-01T20:30:00",
     visibility: {
       scope: stripLiteralString(precise?.visibility?.scope) || "global",
-      directionLabel: stripLiteralString(precise?.visibility?.directionLabel) || "All over the globe",
+      directionLabel:
+        stripLiteralString(precise?.visibility?.directionLabel) || "All over the globe",
     },
     cities: Array.isArray(precise.cities)
       ? precise.cities.map(stripLiteralString).filter(Boolean).slice(0, 6)
@@ -614,12 +628,16 @@ function cleanHeroUpdate(heroUpdate) {
     },
   };
 
-  if (typeof cleanPrecise.targetDateTimeUtc === "string" && cleanPrecise.targetDateTimeUtc.endsWith("Z")) {
+  if (
+    typeof cleanPrecise.targetDateTimeUtc === "string" &&
+    cleanPrecise.targetDateTimeUtc.endsWith("Z")
+  ) {
     cleanPrecise.targetDateTimeUtc = cleanPrecise.targetDateTimeUtc.replace(/Z$/, "");
   }
 
   const cleanEstimated = {
-    leadText: stripLiteralString(estimated.leadText) || "According to the latest available sources",
+    leadText:
+      stripLiteralString(estimated.leadText) || "According to the latest available sources",
     window: (() => {
       const w = estimated.window ?? {};
       const type = w.type;
@@ -637,7 +655,8 @@ function cleanHeroUpdate(heroUpdate) {
     })(),
     visibility: {
       scope: stripLiteralString(estimated?.visibility?.scope) || "global",
-      directionLabel: stripLiteralString(estimated?.visibility?.directionLabel) || "All over the globe",
+      directionLabel:
+        stripLiteralString(estimated?.visibility?.directionLabel) || "All over the globe",
     },
     cities: Array.isArray(estimated.cities)
       ? estimated.cities.map(stripLiteralString).filter(Boolean).slice(0, 6)
@@ -648,7 +667,7 @@ function cleanHeroUpdate(heroUpdate) {
         : [],
       confidence:
         typeof estimated?.meta?.confidence === "number"
-          ? Math.max(0, Math.min(1, estimated.meta.confidence))
+          ? Math.max(0, Math.min(1, precise.meta.confidence))
           : 0,
     },
   };
