@@ -125,7 +125,7 @@ function normalizeArticle(raw) {
   };
 }
 
-export default function ArticlesList({ articles = null, limit = 4 }) {
+export default function ArticlesList({ articles = null, limit = 6 }) {
   const cards = useMemo(() => {
     const isLive = Array.isArray(articles);
     const rawList = isLive ? articles : articlesJson.articles;

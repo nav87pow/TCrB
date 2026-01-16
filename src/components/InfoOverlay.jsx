@@ -62,8 +62,7 @@ export default function InfoOverlay({ open, onClose }) {
             This is a placeholder overlay for site information.
           </p>
           <p style={{ marginBottom: 0 }}>
-            Later you can place your full explanation text here (no extra page).
-          </p>
+Please be patient. We will update information about the phenomenon soon.          </p>
         </div>
       </div>
     </div>

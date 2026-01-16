@@ -23,6 +23,18 @@ export default function TagPill({
     transition
     text-[0.5rem]
     tracking-[0.02rem]
+
+
+  /* Tablet */
+  sm:text-[1rem]
+  sm:py-[0.42rem]
+  sm:px-[0.96rem]
+
+  /* Desktop */
+  lg:text-[1.25rem]
+  lg:py-[0.48rem]
+  lg:px-[1.2rem]
+
   `;
 
   const enabledStyles = "cursor-pointer";

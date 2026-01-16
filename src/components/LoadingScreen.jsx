@@ -107,11 +107,14 @@ export function LoadingScreen({ onEnter }) {
     <div className="bgBright fixed inset-0 flex flex-col items-center justify-center fire-gradient fire-texture z-50">
       <div className="text-center space-y-8 px-6 flex-1 flex flex-col items-center justify-center">
         <div className="space-y-4">
-          <h1 className="title">CHECKING FOR</h1>
+          <h1 className="subtitle">Interested in rare astronomical phenomena?
+</h1>
           <h2 className="text-6xl md:text-7xl font-black text-primary uppercase tracking-wider">
-            TCRB
+            T CrB
           </h2>
-          <h1 className="title animate-pulse"> UPDATE..</h1>
+                    <h1 className="title"> T Coronae Borealis
+</h1>
+          <h1 className="title animate-pulse"> Checking observation update ..</h1>
 
           {errorMsg ? (
             <p className="text-sm text-primary/80" style={{ maxWidth: 520 }}>
@@ -142,8 +145,8 @@ export function LoadingScreen({ onEnter }) {
         </button>
       </div>
 
-      <div className="absolute bottom-4 text-center text-xs text-primary/70 max-w-md px-6">
-        <p className="text-balance font-semibold">
+      <div className="absolute bottom-4 text-center text-xs text-primary/70 max-w-ך px-6">
+        <p className="text-balance font-semibold sm:text-sm lg:text-base">
           The information is based on public sources and automated summarization.
           No guarantee of accuracy or real-time timing.
         </p>

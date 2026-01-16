@@ -32,7 +32,7 @@ export default function HeroUpdate({ heroUpdate, userContext }) {
  return (
   <section className="w-full pt-10">
     {/* 1) כותרת בתוך קונטיינר צר */}
-    <div className="mx-auto w-full max-w-[26rem] px-6">
+    <div className="mx-auto w-full px-6">
       <UpdateHeadline
         status={data.status}
         precise={data.precise}
@@ -50,7 +50,7 @@ export default function HeroUpdate({ heroUpdate, userContext }) {
     </div>
 
     {/* 3) מיקום בתוך קונטיינר צר */}
-    <div className="mx-auto w-full max-w-[26rem] px-6">
+    <div className="mx-auto w-full px-6">
       <div className="mt-10">
         <LocationBlock
           status={data.status}

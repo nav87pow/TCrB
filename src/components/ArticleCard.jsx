@@ -17,7 +17,7 @@ function toUtcDateWithYmdFix(isoOrYmd) {
   if (isIsoYmd(isoOrYmd)) {
     const d = new Date(`${isoOrYmd}T00:00:00Z`);
     if (Number.isNaN(d.getTime())) return null;
-    d.setUTCDate(d.getUTCDate() + 1);
+    d.setUTCDate(d.getUTCDate() );
     return d;
   }
 
