@@ -71,6 +71,7 @@ export default function Update({ session }) {
 
   // PWA install prompt (Download)
   const [deferredInstallPrompt, setDeferredInstallPrompt] = useState(null);
+  const canInstall = !!deferredInstallPrompt;
 
   // Live data state
   const [updates, setUpdates] = useState(null);
@@ -237,6 +238,7 @@ export default function Update({ session }) {
           open={downloadOpen}
           onClose={() => setDownloadOpen(false)}
           onConfirm={confirmDownload}
+          canInstall={canInstall}
           showFallback={downloadFallback}
         />
 
@@ -279,6 +281,7 @@ export default function Update({ session }) {
           open={downloadOpen}
           onClose={() => setDownloadOpen(false)}
           onConfirm={confirmDownload}
+          canInstall={canInstall}
           showFallback={downloadFallback}
         />
 
@@ -314,6 +317,7 @@ export default function Update({ session }) {
         open={downloadOpen}
         onClose={() => setDownloadOpen(false)}
         onConfirm={confirmDownload}
+        canInstall={canInstall}
         showFallback={downloadFallback}
       />
 
