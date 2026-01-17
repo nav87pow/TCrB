@@ -65,12 +65,7 @@ export default function DownloadOverlay({
           <button
             className="btn btnPrimary"
             onClick={onConfirm}
-            disabled={!canInstall}
-            title={
-              canInstall
-                ? "Install app"
-                : "Install is not available on this device"
-            }
+            title={canInstall ? "Install app" : "Show install instructions"}
           >
             Download
           </button>
