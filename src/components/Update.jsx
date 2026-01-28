@@ -217,6 +217,32 @@ export default function Update({ session }) {
     setDeferredInstallPrompt(null);
     setDownloadOpen(false);
   }
+const safeArticles = Array.isArray(updates?.articles) ? updates.articles : [];
+
+function isTrustedArticle(a) {
+  return Boolean(a?.source?.isTrusted ?? a?.isTrusted);
+}
+
+function toTime(publishedAt) {
+  const t = new Date(publishedAt || 0).getTime();
+  return Number.isFinite(t) ? t : 0;
+}
+
+const latestTrustedArticle = React.useMemo(() => {
+  const trusted = safeArticles.filter(isTrustedArticle);
+  if (trusted.length === 0) return null;
+
+  // pick latest by publishedAt (fallback to original order if missing dates)
+  trusted.sort((a, b) => toTime(b?.publishedAt) - toTime(a?.publishedAt));
+
+  const pick = trusted[0];
+
+  // Ensure ArticleCard styling hook works (it checks article.source.isTrusted)
+  const source = { ...(pick.source || {}) };
+  if (source.isTrusted == null) source.isTrusted = Boolean(pick.isTrusted);
+
+  return { ...pick, source };
+}, [safeArticles]);
 
   if (loading) {
     return (
@@ -232,7 +258,11 @@ export default function Update({ session }) {
           <p className="text-sm opacity-70">Loading updates…</p>
         </div>
 
-        <InfoOverlay open={infoOpen} onClose={() => setInfoOpen(false)} />
+<InfoOverlay
+  open={infoOpen}
+  onClose={() => setInfoOpen(false)}
+  latestArticle={latestTrustedArticle}
+/>
 
         <DownloadOverlay
           open={downloadOpen}
@@ -275,7 +305,11 @@ export default function Update({ session }) {
           </button>
         </div>
 
-        <InfoOverlay open={infoOpen} onClose={() => setInfoOpen(false)} />
+<InfoOverlay
+  open={infoOpen}
+  onClose={() => setInfoOpen(false)}
+  latestArticle={latestTrustedArticle}
+/>
 
         <DownloadOverlay
           open={downloadOpen}
@@ -311,7 +345,11 @@ export default function Update({ session }) {
 
       <ArticlesList articles={articles} limit={6} />
 
-      <InfoOverlay open={infoOpen} onClose={() => setInfoOpen(false)} />
+<InfoOverlay
+  open={infoOpen}
+  onClose={() => setInfoOpen(false)}
+  latestArticle={latestTrustedArticle}
+/>
 
       <DownloadOverlay
         open={downloadOpen}

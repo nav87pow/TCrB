@@ -13,7 +13,7 @@ export default function TagPill({
     gap-[0.625rem]
     rounded-[6.25rem]
     border
-    border-violet-950
+    border-violet-100
     border-[0.02rem]
     bg-stone-50
     py-[0.375rem]

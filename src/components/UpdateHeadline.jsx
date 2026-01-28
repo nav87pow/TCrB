@@ -40,7 +40,7 @@ export default function UpdateHeadline({ status, precise, estimated }) {
       <p   className={
     status === "estimated"
       ? "headlineEstimated mb-4"
-      : "h1title mb-2"
+      : "h1title mb-2 "
   }>{line1}</p>
       <h1 className="h1title">{line2}</h1>
     </header>
