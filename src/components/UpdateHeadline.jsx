@@ -7,7 +7,7 @@ export default function UpdateHeadline({ status, precise, estimated }) {
       const dt = precise?.targetDateTimeUtc || "";
       return {
         line1: dt ? dt : "—",
-        line2: "we allmost there",
+        line2: "we almost there",
       };
     }
 

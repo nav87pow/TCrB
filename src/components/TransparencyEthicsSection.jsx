@@ -34,12 +34,12 @@ export default function TransparencyEthicsSection() {
   const figmaUrl = ""; // ← להדביק URL כשיש
 
   return (
-    <section className="mt-32 mb-6">
+    <section className="my-[5.375rem]">
       {/* Title */}
-      <h2 className="headlineEstimated mb-16">Transparency &amp; ethics</h2>
+      <h2 className="headlineEstimated mb-[2.8rem]">Transparency &amp; ethics</h2>
 
       {/* Paragraphs block — כל סעיף הוא פסקה (textm) */}
-      <div className="space-y-12">
+      <div className="space-y-[1.8rem] lg:space-y-[2.4rem]">
         <p className="textm">This site contains no advertisements and has no commercial interests.</p>
         <p className="textm">We do not collect personal data.<br/><span className="texts text-stone-950">If you choose to share your location, it is used only to estimate possible viewing regions nothing more.</span></p>
         <p className="textm">The project exists out of a belief in open source to knowledge and a genuine interest in astronomy.</p>
@@ -48,11 +48,11 @@ export default function TransparencyEthicsSection() {
       </div>
 
       {/* Open files — פסקה בפני עצמה + 2 כפתורים (GitHub / Figma) */}
-      <div className="mt-12">
-        <p className="textm mb-8">The site’s code and design are open source.
+      <div className="mt-[1.8rem] lg:mt-[2.4rem]">
+        <p className="textm mb-[1.24rem]">The site’s code and design are open source.
         </p>
 
-        <div className="flex items-center justify-center gap-[56px]">
+        <div className="flex items-center justify-center gap-16">
           <IconLink href={githubUrl} label="GitHub" iconSrc="/GitHub.svg" />
 
           {figmaUrl ? (
@@ -76,8 +76,8 @@ export default function TransparencyEthicsSection() {
       </div>
 
       {/* Donate — פסקה בפני עצמה + כפתור לעמוד תרומות */}
-      <div className="mt-12">
-        <p className="textm mb-8">You are more then welcome to support the project via the donation page, but it will always remain accessible to everyone.
+      <div className="mt-[1.8rem]">
+        <p className="textm mb-[1.8rem] lg:mt-[2.4rem]">You are more then welcome to support the project via the donation page, but it will always remain accessible to everyone.
         </p>
 
         <div className="flex justify-center">

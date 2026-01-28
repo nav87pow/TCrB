@@ -4,7 +4,7 @@ import WarningPill from "./WarningPill";
 
 export default function WarningsSection() {
   return (
-    <div className="mt-[24px] space-y-[14px]">
+    <div className="mt-[1.8rem] space-y-[1.24rem] lg:space-x-[1.24rem] ">
       <WarningPill>
         This is <span className="font-bold">NOT</span> a guaranteed prediction
       </WarningPill>

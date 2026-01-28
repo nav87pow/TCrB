@@ -15,9 +15,9 @@ export default function InfoBullet({
   iconFontClass = "font-symbols",
 }) {
   return (
-    <div className="flex flex-col text-left mb-[56px]">
+    <div className="flex flex-col text-left mb-[56px] lg:w-[32rem] ">
       {/* Icon */}
-      <div className="mb-[24px]">
+      <div className="mb-[24px] ">
         <span
           className="
             inline-flex items-center justify-center
@@ -29,7 +29,7 @@ export default function InfoBullet({
           "
           aria-hidden="true"
         >
-          <span className={`${iconFontClass} text-[16px] pt-[0.32rem] leading-none text-purple-950`}>
+          <span className={`${iconFontClass} text-[16px] pt-[0.32rem] leading-none text-purple-950 lg:text-2 `}>
             {iconChar}
           </span>
         </span>
@@ -37,10 +37,10 @@ export default function InfoBullet({
 
       {/* Bullet info */}
       <div className="flex flex-col gap-[18px] min-w-0">
-        <div className="headlinem">{title}</div>
+        <div className="headlinem lg:text-[rem]">{title}</div>
 
         {text ? (
-          <p className="headlinemlight leading-[1.65]">
+          <p className="headlinemlight leading-[1.65] lg:text-[1.4rem]">
             {text}
           </p>
         ) : null}

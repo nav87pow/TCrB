@@ -38,7 +38,7 @@ export default function InfoOverlay({ open, onClose, latestArticle }) {
           flex items-center justify-between
           px-[36px]
           py-[36px]
-          border-b border-purple-950/10
+          border-b border-purple-50
         "
       >
         <div className="brandText">T CrB</div>
@@ -48,7 +48,7 @@ export default function InfoOverlay({ open, onClose, latestArticle }) {
           className="
             w-10 h-10 rounded-full
             flex items-center justify-center
-            border border-purple-950/20
+            border border-purple-600
           "
           aria-label="Close"
         >
@@ -66,11 +66,12 @@ export default function InfoOverlay({ open, onClose, latestArticle }) {
           [scrollbar-width:none]
           [-ms-overflow-style:none]
           [&::-webkit-scrollbar]:hidden
+          lg:text-center
         "
       >
         <div className="hero">
-          <h6 className="articaesource mb-[24px]">T Coronae Borealis (T CrB)</h6>
-          <h1 className="font-display font-black uppercase text-[1.5rem] mb-[38px]">
+          <h6 className="articaesource mb-[1.5rem]">T Coronae Borealis </h6>
+          <h1 className="font-display font-black uppercase text-[1.5rem] mb-[1.8rem]">
             A rare cosmic event
           </h1>
 
@@ -84,13 +85,16 @@ export default function InfoOverlay({ open, onClose, latestArticle }) {
           <img
             src="/gold_line.png"
             alt="gold line element"
-            className="mt-[68px] mb-[68px] scale-90"
+            className="my-[5.375rem] w-full
+    md:scale-[0.68]
+    lg:w-[32rem] lg:my-[3.2rem] lg:mx-auto"
           />
-          <h3 className="headlineEstimated mb-[24px]">once in a lifetime event </h3>
-          <h2 className="h1title mb-[86px]">every 80 years</h2>
+          <h3 className="headlineEstimated mb-[1.24rem]">once in a lifetime event </h3>
+          <h2 className="h1title ">every 80 years</h2>
         </div>
 
-        <div className="bullet">
+        <div className="bullet my-[5.375rem] lg:flex lg:justify-around
+ lg:flex-row">
           <InfoBullet
             iconChar="🗱"
             title="A Rare Phenomenon"
@@ -105,32 +109,42 @@ export default function InfoOverlay({ open, onClose, latestArticle }) {
 
         <PhenomenonSection />
 
-        <div className="bullet">
-          <h3 className="headlineEstimated mt-32 mb-8">it is fascinating </h3>
+        <div className="bullet my-[5.375rem] lg:my-[12rem] ">
+          <h3 className="headlineEstimated  mb-8">it is fascinating </h3>
+         <div className="lg:flex lg:gap-16">
           <InfoBullet iconChar="👁" title="A rare event visible without advanced equipment" />
           <InfoBullet iconChar="⚛" title="A real-time opportunity to observe stellar physics" />
           <InfoBullet
             iconChar="🗫"
             title="A shared moment for scientists, photographers, and curious observers worldwide"
           />
-        </div>
-
-        <h1 className="font-display font-black uppercase text-[1.5rem] mt-32 mb-[38px]">
+        </div></div>
+       
+<div className="updatearticle  my-[5.375rem] "></div>
+        <h1 className="font-display font-black uppercase text-[1.5rem] mb-[1.8rem] lg:my-8">
           Latest verified update
         </h1>
 
         {/* כרטיס הכתבה (בדיוק אותו רכיב כמו בעמוד העדכון) */}
-        <ArticlesList articles={oneArticle} limit={1} />
+<div className="
+  lg:[&_.articles-list]:grid-cols-1
+  lg:[&_.articles-list]:place-items-center
+  lg:[&_.articles-list]:px-0
+  lg:[&_.articles-list_.article-card]:w-[46rem]
+">
+  <ArticlesList articles={oneArticle} limit={1} />
+</div>
 
 <AboutSection/>
-          <h3 className="headlineEstimated mb-8">information updated </h3>
 
- <p className="headlinemlight mb-12">
+<div className="warning my-[5.375rem]">
+          <h3 className="headlineEstimated mb-[1.8rem]">information updated </h3>
+ <p className="headlinemlight mb-[2.6rem]">
            Updates appear when meaningful new data becomes available
           </p>
 <WarningsSection />
+</div>
 <TransparencyEthicsSection/>
-        <div className="h-24" />
       </main>
     </div>
   );

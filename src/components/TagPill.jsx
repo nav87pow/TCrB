@@ -13,7 +13,7 @@ export default function TagPill({
     gap-[0.625rem]
     rounded-[6.25rem]
     border
-    border-violet-100
+    border-violet-200
     border-[0.02rem]
     bg-stone-50
     py-[0.375rem]
@@ -37,8 +37,8 @@ export default function TagPill({
 
   `;
 
-  const enabledStyles = "cursor-pointer";
-  const disabledStyles = "cursor-not-allowed opacity-50";
+  const enabledStyles = "cursor-none";
+  const disabledStyles = "cursor-none";
 
   const finalClassName = [
     base,

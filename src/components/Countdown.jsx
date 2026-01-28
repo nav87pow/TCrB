@@ -90,7 +90,7 @@ export default function Countdown({ status, precise, userContext }) {
   if (status !== "precise") {
     return (
 <div className="w-full bgBright h-[188px] flex items-center justify-center text-center">
-        <h1 className="h1title">
+        <h1 className="h1title px-4">
 let׳s be patience        </h1>
       </div>
     );

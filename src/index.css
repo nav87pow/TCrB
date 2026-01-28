@@ -86,7 +86,7 @@
     @apply bg-stone-50 text-violet-950;
   }
     .countNum {
-    @apply font-display text-stone-50 text-center uppercase font-black text-[2.625rem] tracking-[0.105rem];
+    @apply font-display text-stone-50 text-center uppercase font-black text-[2.625rem] tracking-[0.105rem] ;
     -webkit-text-stroke-width: 0.02px;
     -webkit-text-stroke-color: violet-950;
   }
@@ -101,7 +101,9 @@
       text-[0.96rem]
       font-light
       tracking-[0.035rem]
-      leading-[164%];
+      leading-[164%]
+          lg:text-[1.2rem];
+
   }
   .texts {
     @apply
@@ -284,6 +286,8 @@
     @apply text-[1.42rem] py-4 px-[1.25rem];
   }
 }
-
+ .countNum {
+  @apply text-[6.2rem];
+ }
  
 }

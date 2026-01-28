@@ -14,6 +14,7 @@ export default function WarningPill({ children }) {
         text-red-900
         rounded-md
         w-full
+        lg:max-w-[24rem] 
       "
     >
       {/* icon */}

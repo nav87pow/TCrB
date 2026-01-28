@@ -12,17 +12,16 @@ export default function StoryCard({ text, imageSrc, imageAlt = "" }) {
           bg-[#FAFAFA]
         "
       >
-        <div className="
-        flex 
-        flex-col 
-        gap-[6px] 
-        min-w-0 
-        px-[0.75rem] pt-[1rem] pb-[2.25rem]
-">
-    
-          {text ? <p className="headlines 
-
-">{text}</p> : null}
+        <div
+          className="
+            flex 
+            flex-col 
+            gap-[6px] 
+            min-w-0 
+            px-[0.75rem] pt-[1rem] pb-[2.25rem]
+          "
+        >
+          {text ? <p className="headlines">{text}</p> : null}
         </div>
       </div>
 
@@ -41,8 +40,10 @@ export default function StoryCard({ text, imageSrc, imageAlt = "" }) {
           <img
             src={imageSrc}
             alt={imageAlt}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover pointer-events-none"
             loading="lazy"
+            draggable={false}
+            onDragStart={(e) => e.preventDefault()}
           />
         </div>
       </div>
