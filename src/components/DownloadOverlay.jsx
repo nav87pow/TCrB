@@ -37,20 +37,20 @@ export default function DownloadOverlay({
           boxShadow: "0 20px 40px rgba(0,0,0,0.2)",
         }}
       >
-        <h3 className="text-base font-semibold text-primary">
+        <h3 className="text-base font-semibold text-purple-950">
           Install the app?
         </h3>
 
-        <p className="mt-3 text-sm text-primary/80 leading-relaxed">
+        <p className="mt-3 text-sm text-purple-950/80 leading-relaxed">
           Do you want to install the app on your phone to get daily updates?
         </p>
 
         {showFallback && !canInstall && (
           <div className="mt-4 rounded-xl border border-black/10 bg-black/5 p-4">
-            <p className="text-xs text-primary/80">
+            <p className="text-xs text-purple-950/80">
               Installation is not available automatically on this device.
             </p>
-            <p className="mt-2 text-xs text-primary/80">
+            <p className="mt-2 text-xs text-purple-950/80">
               Please use <strong>Add to Home Screen</strong> from your browser
               menu.
             </p>

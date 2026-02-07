@@ -9,7 +9,7 @@ export default function StoryCard({ text, imageSrc, imageAlt = "" }) {
           flex items-end justify-start
           gap-[0.625rem]
           rounded-t-[0.5rem]
-          bg-[#FAFAFA]
+          bg-stone-50
         "
       >
         <div
@@ -31,7 +31,7 @@ export default function StoryCard({ text, imageSrc, imageAlt = "" }) {
           className="
             w-[14.8125rem] h-[16.25rem]
             rounded-[0.5rem]
-            border border-[#FAFAFA]
+            border border-stone-50
             overflow-hidden
             bg-[lightgray]
           "

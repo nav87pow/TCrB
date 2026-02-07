@@ -38,7 +38,7 @@ export default function NavButton({
     items-center justify-center
     rounded-full
     px-[0.875rem] pt-[1rem] pb-[0.55rem]
-    bg-[rgba(124,58,237,0.18)]
+    bg-violet-500/[0.18]
   "
 >
 
@@ -65,9 +65,9 @@ export default function NavButton({
     px-1 py-1
     text-[8px]
     whitespace-nowrap
-    bg-[#FAFAFA]
-    border border-[#C27BFF]
-    text-[#3C0365]
+    bg-stone-50
+    border border-purple-400
+    text-purple-950
   "
 >
 

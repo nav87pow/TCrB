@@ -121,7 +121,13 @@ For reviewers or recruiters who want to see the **countdown UI** without waiting
 
 ---
 
-## Project Status & Design Notes
+### License
+
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.  
+You are free to download, use, and modify the source code, including for commercial purposes, provided that attribution is given to the original author.
+
+
+## Project Status & Scope
 
 This project is considered **feature-complete for its current experimental scope**.
 
@@ -129,18 +135,49 @@ This project is considered **feature-complete for its current experimental scope
 
 This is an **open project**:
 
-* The **source code** is publicly available on GitHub
-* The **design files** will be published publicly on **Figma**
+- The **source code** is publicly available on GitHub  
+- The **design files** are publicly available on Figma  
 
-Both are intended to be accessible for review, learning, and reuse.
+Both are intended for review, learning, and reuse.
 
 ### Responsive Design Scope
 
-* The interface was **designed mobile-first** and optimized primarily for **smartphone screens**.
-* Desktop responsiveness was implemented at a **minimal, illustrative level only**, intended to demonstrate layout behavior rather than provide a fully polished desktop experience.
+- The interface was designed **mobile-first** and optimized primarily for **smartphone screens**
+- Desktop responsiveness is implemented at a **minimal, illustrative level**, intended to demonstrate layout behavior rather than provide a fully polished desktop experience
 
-### License
+---
 
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.  
-You are free to download, use, and modify the source code, including for commercial purposes, provided that attribution is given to the original author.
+## Design License
 
+The visual design, layout system, and UI concepts of this project are shared under a  
+**Creative Commons Attribution 4.0 International (CC BY 4.0)** license.
+
+You are free to:
+
+- Use the design files  
+- Adapt and remix the layouts  
+- Apply the concepts to personal or commercial projects  
+
+**Condition:**  
+Attribution must be given to the original author.
+
+This license applies **only to the design assets and UI concepts**.
+
+---
+
+## Code License
+
+The source code of this project is licensed under the **MIT License**.  
+You are free to use, modify, and distribute the code, including for commercial purposes, provided that attribution is given.
+
+See the [LICENSE](LICENSE) file for details.
+
+---
+
+## Figma Design Files
+
+The full design file is publicly available on Figma Community:
+
+[https://www.figma.com/community/file/1602082091851570139](https://www.figma.com/community/file/1602082091851570139)
+
+The file is shared as an open reference for learning, inspection, and reuse.

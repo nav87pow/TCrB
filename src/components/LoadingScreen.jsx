@@ -104,12 +104,12 @@ export function LoadingScreen({ onEnter }) {
   }
 
   return (
-    <div className="bgBright fixed inset-0 flex flex-col items-center justify-center fire-gradient fire-texture z-50">
+    <div className="bgBright fixed inset-0 flex flex-col items-center justify-center z-50">
       <div className="text-center space-y-8 px-6 flex-1 flex flex-col items-center justify-center">
         <div className="space-y-4">
           <h1 className="subtitle">Interested in rare astronomical phenomena?
 </h1>
-          <h2 className="text-6xl md:text-7xl font-black text-primary uppercase tracking-wider">
+          <h2 className="text-6xl md:text-7xl font-black text-purple-950 uppercase tracking-wider">
             T CrB
           </h2>
                     <h1 className="title"> T Coronae Borealis
@@ -117,7 +117,7 @@ export function LoadingScreen({ onEnter }) {
           <h1 className="title animate-pulse"> Checking observation update ..</h1>
 
           {errorMsg ? (
-            <p className="text-sm text-primary/80" style={{ maxWidth: 520 }}>
+            <p className="text-sm text-purple-950/80" style={{ maxWidth: 520 }}>
               {errorMsg}
             </p>
           ) : null}
@@ -145,7 +145,7 @@ export function LoadingScreen({ onEnter }) {
         </button>
       </div>
 
-      <div className="absolute bottom-4 text-center text-xs text-primary/70 max-w-ך px-6">
+      <div className="absolute bottom-4 text-center text-xs text-purple-950/70 max-w-ך px-6">
         <p className="text-balance font-semibold sm:text-sm lg:text-base">
           The information is based on public sources and automated summarization.
           No guarantee of accuracy or real-time timing.
@@ -160,10 +160,10 @@ export function LoadingScreen({ onEnter }) {
             onClick={() => (isBusy ? null : setShowConsent(false))}
           />
           <div className="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
-            <h3 className="text-lg font-semibold text-primary">
+            <h3 className="text-lg font-semibold text-purple-950">
               Location Permission
             </h3>
-            <p className="mt-2 text-sm text-primary/80">
+            <p className="mt-2 text-sm text-purple-950/80">
               By continuing, I confirm that I approve sharing my current
               geolocation for this update.
             </p>

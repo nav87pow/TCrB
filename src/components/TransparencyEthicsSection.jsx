@@ -26,12 +26,10 @@ function IconLink({ href, label, iconSrc }) {
 }
 
 export default function TransparencyEthicsSection() {
-  // LINKS (כמו שביקשת)
+  // LINKS 
   const githubUrl = "https://github.com/nav87pow/TCrB";
   const donateUrl = "https://buymeacoffee.com/nav87pow";
-
-  // Figma נשאר “פתוח” אבל בתוך הקומפוננט — כלומר: תחליף/י כאן כשתרצה/י
-  const figmaUrl = ""; // ← להדביק URL כשיש
+  const figmaUrl = "https://www.figma.com/community/file/1602082091851570139";
 
   return (
     <section className="my-[5.375rem]">

@@ -193,7 +193,7 @@
 
   .articlebadge {
     @apply absolute -right-1 -bottom-1 w-[14px] h-[14px] rounded-full
-      flex items-center justify-center bg-[#7c3aed] border border-white;
+      flex items-center justify-center bg-violet-500 border border-white;
   }
 
   /* icon glyph from Noto Sans Symbols2 */

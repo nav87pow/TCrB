@@ -255,7 +255,7 @@ const latestTrustedArticle = React.useMemo(() => {
         }}
       >
         <div className="mx-auto w-full px-6 pt-10">
-          <p className="text-sm opacity-70">Loading updates…</p>
+          <p className="text-sm opacity-70 animate-bounce ">Loading updates…</p>
         </div>
 
 <InfoOverlay
