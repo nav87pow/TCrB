@@ -53,23 +53,7 @@ export default function TransparencyEthicsSection() {
         <div className="flex items-center justify-center gap-16">
           <IconLink href={githubUrl} label="GitHub" iconSrc="/GitHub.svg" />
 
-          {figmaUrl ? (
-            <IconLink href={figmaUrl} label="Figma" iconSrc="/Figma.svg" />
-          ) : (
-            <div className="inline-flex flex-col items-center justify-center gap-2 opacity-50">
-              <span
-                className="
-                  inline-flex items-center justify-center
-                  w-[3.25rem] h-[3.25rem]
-                  rounded-full
-                  bg-purple-500
-                "
-              >
-                <img src="/Figma.svg" alt="" className="w-6 h-6" />
-              </span>
-              <span className="caption">Figma</span>
-            </div>
-          )}
+          <IconLink href={figmaUrl} label="Figma" iconSrc="/Figma.svg" />
         </div>
       </div>
 
