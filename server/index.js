@@ -166,12 +166,12 @@ function sortByPublishedDesc(a, b) {
  * Trusted recency rule:
  * If ALL trusted are older than 6 months => keep ONLY the most recent trusted.
  */
-function isFreshWithinMs(ymd, maxAgeMs) {
-  if (!isYmd(ymd)) return false;
-  const ms = parseDateLabelToMs(ymd);
-  if (!ms) return false;
-  return Date.now() - ms <= maxAgeMs;
-}
+//function isFreshWithinMs(ymd, maxAgeMs) {
+//  if (!isYmd(ymd)) return false;
+//  const ms = parseDateLabelToMs(ymd);
+//  if (!ms) return false;
+//  return Date.now() - ms <= maxAgeMs;
+//}
 
 /**
  * MUST:
@@ -183,21 +183,25 @@ function isFreshWithinMs(ymd, maxAgeMs) {
 function pickAndOrderArticles(items, limit = 6) {
   const arr = Array.isArray(items) ? items.slice() : [];
 
-  const trustedAll = arr.filter((x) => x?.isTrusted === true).sort(sortByPublishedDesc);
-  const other = arr.filter((x) => x?.isTrusted !== true).sort(sortByPublishedDesc);
+  const trustedAll = arr
+    .filter((x) => x?.isTrusted === true)
+    .sort(sortByPublishedDesc);
+
+  const other = arr
+    .filter(
+      (x) =>
+        !trustedAll[0] ||
+        !(
+          (x?.url && x.url === trustedAll[0]?.url) ||
+          (x?.id && x.id === trustedAll[0]?.id)
+        )
+    )
+    .sort(sortByPublishedDesc);
 
   const out = [];
 
   if (trustedAll.length > 0) {
-    const SIX_MONTHS_MS = 183 * 24 * 60 * 60 * 1000;
-    const anyFreshTrusted = trustedAll.some((t) => isFreshWithinMs(t?.publishedAt, SIX_MONTHS_MS));
-    const trustedKeep = anyFreshTrusted ? trustedAll : trustedAll.slice(0, 1);
-
-    for (const t of trustedKeep) {
-      if (out.length >= limit) break;
-      if (out.some((y) => (y?.url && y.url === t?.url) || (y?.id && y.id === t?.id))) continue;
-      out.push(t);
-    }
+    out.push(trustedAll[0]);
   }
 
   for (const x of other) {
@@ -490,26 +494,32 @@ app.get("/api/updates", async (req, res) => {
         })
         .filter((x) => x.title && x.url);
 
-      const forGroq = pickAndOrderArticles(classified, 12);
+     const forGroq = pickAndOrderArticles(classified, 12);
 
-      const groqOut = await analyzeWithGroq({
-        topic: "T Coronae Borealis / T CrB / Blaze Star nova eruption forecast",
-        results: forGroq,
-      });
+const groqOut = await analyzeWithGroq({
+  topic: "T Coronae Borealis / T CrB / Blaze Star nova eruption forecast",
+  results: forGroq,
+});
 
-      const heroUpdate = cleanHeroUpdate(groqOut?.heroUpdate);
+const heroUpdate = cleanHeroUpdate(groqOut?.heroUpdate);
 
-      const articlesBase = forGroq.slice(0, 12).map((x) => ({
-        id: x.id,
-        isTrusted: x.isTrusted,
-        siteName: x.siteName || x.domain || "",
-        domain: x.domain || "",
-        faviconUrl: x.faviconUrl || null,
-        publishedAt: isYmd(x.publishedAt) ? x.publishedAt : null,
-        title: String(x.title || "").trim(),
-        excerpt: clampExcerpt(x.snippet, 250, 350),
-        url: x.url,
-      }));
+ const articlesBase = forGroq
+  .filter((x) =>
+    Array.isArray(groqOut?.articles) &&
+    groqOut.articles.some((a) => a?.id === x?.id)
+  )
+  .slice(0, 12)
+  .map((x) => ({
+    id: x.id,
+    isTrusted: x.isTrusted,
+    siteName: x.siteName || x.domain || "",
+    domain: x.domain || "",
+    faviconUrl: x.faviconUrl || null,
+    publishedAt: isYmd(x.publishedAt) ? x.publishedAt : null,
+    title: String(x.title || "").trim(),
+    excerpt: clampExcerpt(x.snippet, 250, 350),
+    url: x.url,
+  }));
 
       const articles = pickAndOrderArticles(articlesBase, 6);
 

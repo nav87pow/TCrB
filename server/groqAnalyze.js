@@ -4,7 +4,6 @@
 // heroUpdate: { status, estimated: {...}, precise: {...} }
 
 import Groq from "groq-sdk";
-import { searchBrave } from "./searchBrave.js";
 
 function yearRange(from, to) {
   return { type: "yearRange", from, to };
@@ -41,61 +40,39 @@ function fallbackHeroUpdate(reasonText = "Search/analyzer unavailable") {
   };
 }
 
-function monthLabelFromISO(iso) {
-  if (!iso) return "recent";
-  const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return "recent";
-  const yyyy = d.getUTCFullYear();
-  const mm = String(d.getUTCMonth() + 1).padStart(2, "0");
-  return `${yyyy}-${mm}`;
-}
+//function monthLabelFromISO(iso) {
+//  if (!iso) return "recent";
+//  const d = new Date(iso);
+//  if (Number.isNaN(d.getTime())) return "recent";
+//  const yyyy = d.getUTCFullYear();
+//  const mm = String(d.getUTCMonth() + 1).padStart(2, "0");
+//  return `${yyyy}-${mm}`;
+//}
 
-function buildArticlesFromSearchResults(results, limit = 6) {
+function buildArticlesFromSearchResults(results, limit = 12) {
   const list = Array.isArray(results) ? results.slice(0, limit) : [];
+
   return list
-    .map((r, idx) => ({
-      id: `srch-${idx + 1}`,
-      source: r?.domain ? String(r.domain).toUpperCase() : "WEB",
-      dateLabel: monthLabelFromISO(r?.publishedAt),
-      title: String(r?.title || "").trim(),
-      excerpt: String(r?.description || r?.snippet || "").trim(),
+    .map((r) => ({
+      id: r?.id,
     }))
-    .filter((a) => a.title);
+    .filter((a) => a.id);
 }
 
 /**
  * IMPORTANT:
  * - Never crash if GROQ_API_KEY is missing.
- * - If Brave fails (e.g., 429), return heroUpdate+articles with SAME keys.
+ * - Analyze only the supplied search results.
  *
- * @param {{ query?: string }} args
+ * @param {{ results?: any[] }} args
  * @returns {Promise<{heroUpdate: any, articles: any[]}>}
  */
 export async function analyzeWithGroq(args = {}) {
   const query = String(args?.query || "T Coronae Borealis nova forecast").trim();
 
-  // 1) Brave search
-  let searchResults = [];
-  try {
-    searchResults = await searchBrave(query, { count: 6 });
-  } catch (e) {
-    const msg = String(e?.message || e);
-    return {
-      heroUpdate: fallbackHeroUpdate(msg),
-      articles: [
-        {
-          id: "fallback-1",
-          source: "WEB",
-          dateLabel: "recent",
-          title: "Fallback (search error)",
-          excerpt: msg,
-        },
-      ],
-    };
-  }
+  let searchResults = Array.isArray(args?.results) ? args.results : [];
 
-  // Always build articles with the MOCK KEYS
-  const articles = buildArticlesFromSearchResults(searchResults, 6);
+  const articles = buildArticlesFromSearchResults(searchResults, 12);
 
   // 2) Groq analysis (optional). If missing key -> do not crash.
   const apiKey = process.env.GROQ_API_KEY;
@@ -125,24 +102,33 @@ export async function analyzeWithGroq(args = {}) {
   try {
     const groq = new Groq({ apiKey });
 
-    const sourcesList = searchResults
-      .map((r) => r?.domain)
-      .filter(Boolean)
-      .slice(0, 6);
+   const sourcesList = searchResults
+  .map((r) => r?.domain)
+  .filter(Boolean)
+  .slice(0, 12);
 
-    const prompt = [
-      "You are analyzing the latest web sources about T Coronae Borealis (T CrB) / Blaze Star.",
-      "Return JSON ONLY in this exact shape:",
-      "{",
-      '  "status": "estimated" | "precise",',
-      '  "estimated": { "leadText": string, "window": { "type":"yearRange","from":number,"to":number } | { "type":"text","value":string }, "visibility": { "scope":"global"|"north"|"south", "directionLabel": string }, "meta": { "confidence": number, "sources": string[] }, "cities": string[] },',
-      '  "precise": { "targetDateTimeUtc": string|null, "visibility": { "scope":"global"|"north"|"south", "directionLabel": string }, "meta": { "confidence": number, "sources": string[] }, "cities": string[] }',
-      "}",
-      "",
-      `Web source domains (for meta.sources): ${sourcesList.join(", ") || "none"}`,
-      "",
-      "If you cannot infer a precise date, keep status='estimated' and precise.targetDateTimeUtc = null.",
-    ].join("\n");
+const prompt = [
+  "You are analyzing web search results about T Coronae Borealis (T CrB) / Blaze Star.",
+  "Keep only results that actually discuss a predicted, estimated, expected, or precise eruption date or eruption window.",
+  "Exclude results that only mention the star, describe its history, or discuss general observation without an eruption prediction.",
+  "Use only the supplied article id values. Do not create new ids.",
+  "Keep estimated.leadText short and concise.",
+  "If estimated.window uses type text, keep estimated.window.value short and include only the predicted eruption window.",
+  "Do not place article summaries, explanations, source lists, or reasoning inside estimated.leadText or estimated.window.value.",
+  "Return JSON ONLY in this exact shape:",
+  "{",
+  '  "status": "estimated" | "precise",',
+  '  "estimated": { "leadText": string, "window": { "type":"yearRange","from":number,"to":number } | { "type":"text","value":string }, "visibility": { "scope":"global"|"north"|"south", "directionLabel": string }, "meta": { "confidence": number, "sources": string[] }, "cities": string[] },',
+  '  "precise": { "targetDateTimeUtc": string|null, "visibility": { "scope":"global"|"north"|"south", "directionLabel": string }, "meta": { "confidence": number, "sources": string[] }, "cities": string[] },',
+  '  "articles": [{ "id": string }]',
+  "}",
+  "",
+  `Web source domains (for meta.sources): ${sourcesList.join(", ") || "none"}`,
+  "",
+  `Articles to analyze: ${JSON.stringify(searchResults)}`,
+  "",
+  "If you cannot infer a precise date, keep status='estimated' and precise.targetDateTimeUtc = null.",
+].join("\n");
 
     const completion = await groq.chat.completions.create({
       model: "openai/gpt-oss-20b",
@@ -213,7 +199,16 @@ export async function analyzeWithGroq(args = {}) {
       },
     };
 
-    return { heroUpdate, articles };
+return {
+  heroUpdate,
+  articles: Array.isArray(parsed?.articles)
+    ? parsed.articles
+        .map((a) => ({
+          id: a?.id,
+        }))
+        .filter((a) => a.id)
+    : articles,
+};
   } catch (e) {
     const msg = String(e?.message || e);
     return {

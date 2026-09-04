@@ -134,7 +134,7 @@ export default function ArticlesList({ articles = null, limit = 6 }) {
 
     // LIVE: trust server ordering/flags, enforce trusted presence locally, do NOT re-run buildArticlesForUI
     if (isLive) {
-      return pickUiCards(normalized, limit);
+return normalized.slice(0, limit);
     }
 
     // MOCK: keep existing pipeline
