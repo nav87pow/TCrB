@@ -72,7 +72,7 @@ export async function analyzeWithGroq(args = {}) {
 
   let searchResults = Array.isArray(args?.results) ? args.results : [];
 
-  const articles = buildArticlesFromSearchResults(searchResults, 12);
+  const articles = buildArticlesFromSearchResults(searchResults, 20);
 
   // 2) Groq analysis (optional). If missing key -> do not crash.
   const apiKey = process.env.GROQ_API_KEY;
