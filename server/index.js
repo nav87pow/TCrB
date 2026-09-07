@@ -437,7 +437,8 @@ app.get("/api/updates", async (req, res) => {
       const trustedNameMap = loadTrustedNameMap();
 
       const baseQuery =
-        "T Coronae Borealis nova forecast T CrB Blaze Star expected eruption date prediction";
+  '("T Coronae Borealis" OR "T CrB" OR "Blaze Star") ("next eruption" OR "next outburst" OR "expected eruption" OR "expected outburst" OR "eruption forecast" OR "outburst forecast" OR "eruption prediction" OR "outburst prediction" OR "eruption date" OR "outburst date" OR "eruption window" OR "outburst window" OR "eruption timing" OR "outburst timing" OR "when will")';
+
 
       // 1) TRUSTED-FIRST sweep across ALL trusted domains in groups of 8 (filtered)
       const trustedSweep = await runTrustedSweep({
@@ -453,7 +454,7 @@ app.get("/api/updates", async (req, res) => {
       // 2) Only after the entire trusted list: fetch broader web (to fill freshness)
       const webSearch = await runSearchStrategy({
         query: baseQuery,
-        limit: 10,
+        limit: 20,
         provider,
         merge,
       });
@@ -494,7 +495,7 @@ app.get("/api/updates", async (req, res) => {
         })
         .filter((x) => x.title && x.url);
 
-     const forGroq = pickAndOrderArticles(classified, 12);
+     const forGroq = pickAndOrderArticles(classified, 20);
 
 const groqOut = await analyzeWithGroq({
   topic: "T Coronae Borealis / T CrB / Blaze Star nova eruption forecast",

@@ -49,7 +49,7 @@ function fallbackHeroUpdate(reasonText = "Search/analyzer unavailable") {
 //  return `${yyyy}-${mm}`;
 //}
 
-function buildArticlesFromSearchResults(results, limit = 12) {
+function buildArticlesFromSearchResults(results, limit = 20) {
   const list = Array.isArray(results) ? results.slice(0, limit) : [];
 
   return list
@@ -105,16 +105,38 @@ export async function analyzeWithGroq(args = {}) {
    const sourcesList = searchResults
   .map((r) => r?.domain)
   .filter(Boolean)
-  .slice(0, 12);
+  .slice(0, 20);
 
 const prompt = [
-  "You are analyzing web search results about T Coronae Borealis (T CrB) / Blaze Star.",
-  "Keep only results that actually discuss a predicted, estimated, expected, or precise eruption date or eruption window.",
-  "Exclude results that only mention the star, describe its history, or discuss general observation without an eruption prediction.",
-  "Use only the supplied article id values. Do not create new ids.",
+  "You are analyzing supplied web search results about T Coronae Borealis (T CrB) / Blaze Star.",
+
+  "ARTICLE SELECTION RULES:",
+  "Select an article only when its supplied title or text makes a substantive claim about the future timing of the next T CrB nova eruption or outburst.",
+  "A qualifying timing claim must include at least one of the following: a specific predicted date, a predicted month or year, a date range, an eruption window, a monitoring window connected to eruption timing, or a probability tied to a future time period.",
+  "The timing claim must refer specifically to the next eruption or outburst of T Coronae Borealis.",
+  "Do not select an article merely because it mentions T CrB, Blaze Star, nova, eruption, outburst, prediction, monitoring, or a date.",
+  "Exclude general descriptions, encyclopedia pages, historical summaries, observing guides without a forecast, unrelated binary-star articles, unrelated occultation predictions, and pages that only describe past eruptions or brightness variations.",
+  "Do not treat text found only in citations, references, bibliographies, navigation, related-links sections, or quoted article titles as a forecast made by the article.",
+  "Do not treat publishedAt, publication dates, update dates, retrieval dates, or dates inside citations as predicted eruption dates.",
+  "If the supplied text is insufficient to confirm a real future timing claim, exclude the article.",
+  "Article selection is based on relevance, not on isTrusted. Use only the supplied article id values and never create a new id.",
+
+  "FORECAST RULES:",
+  "Use status precise only when the supplied text explicitly states a specific predicted eruption date and time that can be represented as targetDateTimeUtc.",
+  "Never invent a day, time, timezone, or timestamp.",
+  "A year, month, approximate date, date range, monitoring window, probability interval, or wording such as around, likely, possible, expected, or within the next year is not precise.",
+  "For every non-precise forecast use status estimated and represent the forecast using estimated.window.",
+  "If the source gives a year range, use estimated.window type yearRange.",
+  "For a month, approximate date, probability interval, monitoring window, or other forecast wording, use estimated.window type text.",
+  "If no qualifying forecast can be supported by the supplied text, use status estimated and set precise.targetDateTimeUtc to null.",
+  "Do not combine conflicting forecasts into a new date or window that no supplied article states.",
+
+  "OUTPUT RULES:",
   "Keep estimated.leadText short and concise.",
-  "If estimated.window uses type text, keep estimated.window.value short and include only the predicted eruption window.",
-  "Do not place article summaries, explanations, source lists, or reasoning inside estimated.leadText or estimated.window.value.",
+  "If estimated.window uses type text, keep estimated.window.value short and include only the supported forecast window.",
+  "Do not place article summaries, explanations, source lists, citations, or reasoning inside estimated.leadText or estimated.window.value.",
+  "Return raw JSON only. Do not use Markdown or code fences.",
+
   "Return JSON ONLY in this exact shape:",
   "{",
   '  "status": "estimated" | "precise",',
@@ -126,8 +148,6 @@ const prompt = [
   `Web source domains (for meta.sources): ${sourcesList.join(", ") || "none"}`,
   "",
   `Articles to analyze: ${JSON.stringify(searchResults)}`,
-  "",
-  "If you cannot infer a precise date, keep status='estimated' and precise.targetDateTimeUtc = null.",
 ].join("\n");
 
     const completion = await groq.chat.completions.create({
